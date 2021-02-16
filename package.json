@@ -1,5 +1,6 @@
 {
   "name": "accueil",
+  "homepage": "/Accueil",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -1,0 +1,16 @@
+@media(min-width:500px){
+	.displayCards{
+		display:flex;
+		justify-content:space-evenly;
+		margin-top:100px;
+	}
+}
+
+@media(max-width:500px){
+	.displayCards{
+		display: block;
+		margin-top: 25px;
+		padding-left:10%;
+		padding-right: 10%;
+	}
+}
