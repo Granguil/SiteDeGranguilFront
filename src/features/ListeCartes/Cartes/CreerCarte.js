@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import style from './Cartes.module.css'
-import CarteFin from './CarteFin'
 import CarteLien from './CarteLien'
 import style2 from './../ListeCartes.module.css'
-import * as $ from 'jquery'
 import useCarteSave from './../../../Hook/useCarteSave'
+import { useDispatch, useSelector } from 'react-redux'
+import { ajoutPage, selectPages } from '../../Slices/CartesSlice'
 
 function CreerCarte() {
     const nvelleCarte={action:"/Data/Cartes/Add"}
     const [Carte,setCarte]=useState({method:"GET",action:"#",titre:[],contenus:[]});
-    const [type,setType]=useState("Fin");
+    const [NvPage,setNvPage]=useState(false);
+    let pages=useSelector(selectPages);
+    
     const modifContenu=(modificateur)=>{
         let arr=[...Carte.contenus];
         if(modificateur===1){
@@ -28,16 +30,7 @@ function CreerCarte() {
         }
         setCarte({...Carte,contenus:[...arr]});
     }
-    const changeCarte=(t)=>{
-        setType(t);
-        if(type==="Fin"){
-            setCarte({...{method:"GET",action:"#",titre:[],contenus:[]}});
-            
-        }else if(type==="Link"){
-            setCarte({...{method:"GET",action:"#",titre:[],contenus:[]}});
-            
-        }
-    }
+    
     const addData=(index)=>{
         let arr=[...Carte.contenus];
         let num=0;
@@ -62,25 +55,25 @@ function CreerCarte() {
         arr[index]=[arr[index][0]];
         for(let i=index+1;i<arr.length;i++){
             if(arr[i].length===2){
+
                 arr[i][1]=arr[i][1]-1;
             }
         }
         setCarte({...Carte,contenus:[...arr]})
     }
     const submitForm=useCarteSave;
+    const dispatch=useDispatch();
    const CreerCarte=(e,id)=>{
         e.preventDefault();
         if(e.key!=="Enter"){
         submitForm(e,id,nvelleCarte.action,"Post");
+        dispatch(ajoutPage(Carte.page));
         }
     }
     return (
         <div className={style2.displayCards}>
-        <article className={style.creation}>
-            <input type="radio" id="finCarte" name="typeCarte" onChange={()=>changeCarte("Fin")}/><label htmlFor="finCarte">Carte Fin</label><br/>
-            <input type="radio" id="linkCarte" name="typeCarte" onChange={()=>changeCarte("Link")}/><label htmlFor="linkCarte">Carte Lien</label><br/>
-        </article>
-        {type==="Fin"?
+        
+        {/*type==="Fin"?
         <article  className={style.creation}>
         <form action={nvelleCarte.action} method="POST" id="CreerCarteFin" onSubmit={(e)=>e.preventDefault()}>
                 <div style={{overflowY:'auto'}}>
@@ -125,16 +118,23 @@ function CreerCarte() {
                 <button onClick={e=>CreerCarte(e,"CreerCarteFin")}>Créer</button>
         </form>
     </article>
-    :type==="Link"?
+    :type==="Link"?*/
     <article  className={style.creation}>
         <form action={nvelleCarte.action} method="POST" id="CreerCarteLink" onSubmit={e=>e.preventDefault()}>
                 <div style={{overflowY:'auto'}}>
-                <select name="page" onChange={(e=>setCarte({...Carte,page:e.target.value}))}>
-                    <option value="Accueil">Accueil</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Projets">Projets</option>
-                    <option value="Profil">Profil</option>
+                <select name="page" onChange={(e=>{
+                    if(e.target.value!=="Autre"){
+                        setCarte({...Carte,page:e.target.value});
+                        setNvPage(false);
+                    }else{
+                        setNvPage(true);
+                    }
+                    }
+                    )}>
+                    {pages.map((page,index)=>{return <option key={index} value={page}>{page}</option>})}
+                    <option value="Autre">Autre</option>
                 </select><br/>
+                {NvPage?<div><input type="text" name="NvPage" onChange={e=>setCarte({...Carte,page:e.target.value})}/><br/></div>:null}
                 <label htmlFor="actionNvC">Action</label><br/>
                 <input type="text" name="action" id="actionNvC" value={Carte.action} onChange={(e)=>setCarte({...Carte,action:e.target.value})}/><br/>
                 <label htmlFor="methodNvC">Methode</label><br/>
@@ -173,12 +173,9 @@ function CreerCarte() {
                 </div>
                 <button onClick={(e)=>CreerCarte(e,"CreerCarteLink")}>Créer</button>
         </form>
-    </article>:null}
-    
-    {type==="Fin"?
-    <CarteFin carte={Carte}/>:type==="Link"?<CarteLien carte={Carte}/>:null}
-        </div>
-    )
+    </article>}
+    <CarteLien carte={Carte}/>
+    </div>)
 }
 
 export default CreerCarte

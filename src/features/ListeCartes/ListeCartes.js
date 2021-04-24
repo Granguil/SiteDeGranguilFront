@@ -9,7 +9,7 @@ function ListeCartes({cartes}) {
     return (
         <section id={style.cardsContainer} className={style.displayCards}>
             {cartes.map((carte,index)=>{
-                if(carte.type==="Lien"){
+                if(carte.type==="Link"){
                    return <CarteLien  carte={carte} key={index}></CarteLien>
                 }else if(carte.type==="Form"){
                    return <CarteForm carte={carte} key={index}></CarteForm>

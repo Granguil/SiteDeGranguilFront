@@ -1,0 +1,197 @@
+.enveloppe{
+	width:90%;
+	min-height:350px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+    background-color: var(--add1-color);
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+}
+
+.article{
+	padding:5px;
+	width:250px;
+	height:400px;
+	border:solid;
+	border-color:lightgrey;
+	border-radius: 10px;
+	background-color: var(--add2-color);
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	margin-top: 10px;
+}
+
+.w100{
+    width: 100%;
+}
+
+@media(min-width:800px){
+	.displayCards{
+		display:flex;
+		justify-content:space-evenly;
+		margin-top:100px;
+	}
+}
+
+@media(max-width:800px){
+	.displayCards{
+		display: block;
+		margin-top: 25px;
+		padding-left:10%;
+		padding-right: 10%;
+	}
+}
+
+.border{
+    border: solid;
+    height:30px;
+	width:11%;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	z-index: 100;
+}
+
+.input{
+    width: 7%; 
+    border: none;
+    height:25px;
+    font-size:25px;
+    padding-left:2%;
+	padding-right:1%;
+	z-index: 50;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+#carteSudoku,#carteDemineur{
+    width:500px;
+	margin-right: 2%;
+}
+
+.paramDem{
+	width: 15%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.labelDem{
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+}
+
+.caseDem{
+	text-decoration: none;
+	background-color: white;
+	color:black;
+}
+
+#demTab{
+	border: solid;
+	border-collapse: collapse;
+	border-spacing: 0;
+	overflow: auto;
+	width:min-content;
+	margin-right: auto;
+	margin-left: auto;
+	max-height:300px;
+}
+
+#demTab tr{
+	margin: 0;
+	justify-content: center;
+}
+
+#demTab td{
+	height: 20px;
+	width: 20px;
+}
+
+.note{
+	margin-top:2px;
+	margin-bottom: 2px;
+}
+
+.line{
+	margin:0;
+	border:solid black;
+}
+
+#enveloppe{
+	justify-content: center;
+}
+
+#A{
+	background-color: green;
+	color:greenyellow;
+}
+
+#B{
+	background-color: blue;
+	color:darkblue;
+}
+
+#C{
+	background-color: red;
+	color:darkred;
+}
+
+#D{
+	background-color: black;
+	color:white
+}
+
+#E{
+	background-color: darkseagreen;
+	color:black
+}
+
+.sudokuButton{
+	border:none;
+	text-decoration: none;
+	width:100%;
+	text-align: center;
+	font-size: larger;
+	padding:5%;
+	margin-top:3%;
+	margin-bottom: 3%;
+}
+
+.flex{
+	display:flex;
+	justify-content: space-evenly;
+}
+
+@media(max-width:800px){
+	.flex{
+		display: flex;
+		flex-direction: column-reverse;
+		margin-top: 25px;
+	}
+
+	.article{
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	#carteSudoku,#carteDemineur{
+		width:120%;
+		margin-left: -10%;
+		margin-right: -10%;
+	}
+	#enveloppe{
+		width:100%;
+		
+	}
+
+	.input{
+		padding-left: 1%;
+	}
+
+
+}

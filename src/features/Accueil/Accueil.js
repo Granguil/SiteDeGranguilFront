@@ -5,9 +5,13 @@ import { changePage, deconnexion, isConnected, selectPage, selectPseudo } from '
 import style from './Accueil.module.css'
 import Header from './Header/Header'
 import useConnected from './../../Hook/useConnected'
-import mokk from '../../general/mokk/mokk'
 import useDeconnected from '../../Hook/UseDeconnected'
+import useCartesList from '../../Hook/useGetCartes'
 import CreerCarte from '../ListeCartes/Cartes/CreerCarte'
+import { selectListes } from '../Slices/CartesSlice'
+import JeuAccueil from '../Jeu/JeuAccueil'
+import Explorer from '../Lecteur/Explorer'
+import Jeu from '../PetitJeu/Jeu'
 
 function Accueil() {
     const connected=useSelector(isConnected);
@@ -15,10 +19,12 @@ function Accueil() {
     const page=useSelector(selectPage);
     const connectedSearch=useConnected;
     const dispatch=useDispatch();
+    const getCartes=useCartesList;
     const deconnected=useDeconnected;
     useEffect(()=>{
         connectedSearch(dispatch);
-    },[connectedSearch,dispatch]);
+        getCartes(dispatch);
+    },[connectedSearch,dispatch,getCartes]);
     const deconnexionProfil=()=>{
         dispatch(deconnexion());
         deconnected(pseudo);
@@ -27,17 +33,21 @@ function Accueil() {
     const goTo=(pageTarget)=>{
         dispatch(changePage({pageName:pageTarget}));
     }
-    const cartes=mokk.cartes.filter(x=>x.page===page);
+    const cartesAll=useSelector(selectListes);
+    let cartes=cartesAll.filter(x=>x.page===page);
     return (
         <>
             <Header></Header>
-            <CreerCarte></CreerCarte>
-           {page!=="Accueil"? <div id={style.return} className={style.return}><button className={style.returnButton} onClick={()=>goTo("Accueil")}>Retour a l'accueil</button>{pseudo==="admin"?<button className={style.returnButton} onClick={()=>goTo("CreationCartes")}>Ajouter Cartes</button>:null}</div>:null}
+            <Jeu/>
+            <Explorer/>
+            <JeuAccueil/>
+            {/*<CreerCarte></CreerCarte>*/}
+           {page!=="Accueil"? <div id={style.return} className={style.return}><button className={style.returnButton} onClick={()=>goTo("Accueil")}>Retour a l'accueil</button>{connected?<button className={style.returnButton} onClick={()=>goTo("Manager")}>Gestion de Compte</button>:null}{pseudo==="admin"?<button className={style.returnButton} onClick={()=>goTo("CreationCartes")}>Ajouter Cartes</button>:null}</div>:null}
            {connected?<div><h3 id={style.pseudo}>{pseudo}, bienvenue</h3>
 <button onClick={()=>deconnexionProfil()} className={style.returnButton}>Se Déconnecter</button>
 </div>:null}
 <ListeCartes cartes={cartes}/>
-{!connected || page==="Accueil"?
+{/*!connected || page==="Accueil"?
 <section id={style.cardsContainer} className={style.displayCards}>
     <article id={style.un}>
         <form action="/Connexion/Accueil" target="_blank" method="post">
@@ -96,7 +106,8 @@ function Accueil() {
     </article>
 </section>
 :
-<div>
+    <div>*/}
+{connected && page==="Manager"?
 <section id={style.containerProfil} className={style.displayCards}>
 <article id={style.AjoutMail}>
             <form action="/Connexion/AjoutMail" method="POST" id="AMForm">
@@ -170,9 +181,10 @@ function Accueil() {
             </div>
             </form>
             </article>
-     </section> 
-     </div>
-}   
+     </section>
+    :connected && page==="CreationCartes"?
+    <CreerCarte/>
+    :null}   
         </>
             
     )
