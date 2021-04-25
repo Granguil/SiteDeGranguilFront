@@ -1,0 +1,43 @@
+@charset "ISO-8859-1";
+
+.toaster{
+	width:200px;
+	min-height:80px;
+	position:absolute;
+	top:20%;
+	border-radius:40px;
+	border:solid 2px;
+	text-align:center;
+}
+
+.toasterHigh{
+	height:40px;
+	color:white;
+	width:100%;
+	border-top-left-radius:40px;
+	border-top-right-radius:40px;
+}
+
+.toasterBottom{
+	min-height:40px;
+	width:100%;
+	border-bottom-left-radius:40px;
+	border-bottom-right-radius:40px;
+	background-color:lightgray;
+}
+
+.error{
+	background-color:red;
+}
+
+.success{
+	background-color:green;
+}
+
+.right{
+	right:10px;
+}
+
+.left{
+	left:10px;
+}
